@@ -1,0 +1,770 @@
+<html>
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM Plex Sans">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM Plex Mono">
+  <title>Supplementary Material for "Evolving Three Dimension (3D) Abstract Art: Fitting Concepts by Language"
+  </title>
+  <link rel="stylesheet" type="text/css" href="./stylesheet.css" />
+</head>
+
+<body>
+
+  <div id="outmost-wrapper">
+    <article>
+      <header>
+        <h1>Supplementary Material for "Evolving Three Dimension (3D) Abstract Art: Fitting Concepts by
+          Language"</h1>
+      </header>
+    </article>
+
+    <!-- uncommen when arxiv version is available.
+    <p>
+      <b>Paper:</b> <a href="./draft.pdf" target="_blank">arXiv</a>
+    </p>
+    -->
+
+    <p>
+      <b>Colab Notebook for code:</b>
+      [<a
+        href="https://colab.research.google.com/github/es3dart/es3dart.github.io/blob/main/notebook.ipynb"
+        target="_blank">Open in Colab</a>]
+      [<a href="./notebook.ipynb" target="_blank">Download</a>]
+    </p>
+
+    <p>
+      <b>Author: </b> Yingtao Tian
+    </p>
+
+    <p>
+      <b>Abstract:</b>
+      Computational creativity has contributed heavily to abstract art in modern era,
+      allowing artists to create high quality, abstract two dimension (2D) arts with a high level of controllability and
+      expressibility.
+      However, even with computational approaches that have promising result in making concrete 3D art, computationally
+      addressing abstract 3D art with high-quality and controllability remains an open question.
+      To fill this gap, we propose to explore computational creativity in making abstract 3D art by bridging evolution
+      strategies (ES) and 3D rendering through customizable parameterization of scenes.
+      We demonstrate that our approach is capable of placing semi-transparent triangles in 3D scenes that, when viewed
+      from specified angles, render into films that look like artists' specification expressed in natural language.
+      This provides a new way for the artist to easily express creativity ideas for abstract 3D art.
+    </p>
+
+    <p>
+      <b> Table of Content </b>
+    </p>
+
+    <ol class="toc-list">
+      <li>
+        <a href="#evaluation-1"><span class="title">Evaluation 1</span></a>:
+        Our method places semi-transparent triangles in three dimension (3D) spaces using
+        Evolution Strategies.
+      </li>
+      <li>
+        <a href="#evaluation-2"><span class="title">Evaluation 2</span></a>: Our method is capable of making a 3D art
+        following the spatial abstract art
+        style, that looks like what humans can compose in natural language text.
+      </li>
+      <li>
+        (There is no Evaluation 3, to keep the numbering of evalutions in line with Figures in paper.)
+      </li>
+      <li>
+        <a href="#evaluation-4"><span class="title">Evaluation 4</span></a>: Our method leverages the budgets of
+        triangles in the increasing order of
+        granularity, by first using triangles for general shape and then moving towards fine-grained details.
+      </li>
+      <li>
+        <a href="#evaluation-5"><span class="title">Evaluation 5</span></a>: In our method, different runs lead to
+        equally plausible yet largely
+        different 3D art.
+      </li>
+      <li>
+        <a href="#evaluation-6"><span class="title">Evaluation 6</span></a>: In our method, the fixed transparency
+        setting allows more global control of
+        the scene, and the
+        learnable one provides great
+        flexibility in how triangles are related to the space.
+      </li>
+      <li>
+        <a href="#evaluation-7"><span class="title">Evaluation 7</span></a>: Our method produces one 3D art, and
+        successfully allows it to look differently from different angles.
+      </li>
+    </ol>
+
+    <a name="evaluation-1"></a>
+    <h2> Evaluation 1: Our proposed method places semi-transparent triangles in three dimension (3D) spaces using
+      Evolution Strategies.</h2>
+    <a href="#top">Back to top</a>
+    <p>
+      <i>This corresponds to the</i> <b class="bolditalic">Figure 1</b> <i>in the paper: </i>
+      <u>Our proposed method places semi-transparent triangles in three dimension (3D) spaces using Evolution
+        Strategies. </u>
+      Leveraging ray-tracing based rendering Mitsuba 3,
+      the rendered film at possibly multiple cameras is compared with its corresponding, user-specified text prompt
+      using distance between their representation embedded by CLIP.
+      Such distances, aggregate by average, are used as the fitness in sense of Evolution Strategies, which optimize the
+      parameters of triangles to archive better finesses.
+    </p>
+    <table class="table-figure">
+      <tbody>
+        <tr>
+          <td class="rowheader"> Result 3D Model (Hover to Enlarge) </td>
+          <td colspan="4">
+            <video class="the360view" playsinline autoplay muted loop>
+              <source src="./media/fig1/viz.mp4" type="video/webm">
+            </video>
+          </td>
+        </tr>
+        <tr>
+          <td class="rowheader"> Rendered Film </td>
+          <td> <img class="subfigure" src="./media/fig1/films/000000.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig1/films/000001.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig1/films/000002.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig1/films/000003.png"> </td>
+        </tr>
+        <tr>
+          <td \ class="rowheader"> Prompts </td>
+          <td class="camera camera1">Prompt/Film 1</td>
+          <td class="camera camera2">Prompt/Film 2</td>
+          <td class="camera camera3">Prompt/Film 3</td>
+          <td class="camera camera4">Prompt/Film 4</td>
+        </tr>
+        <tr>
+          <td colspan="5" class="subfigureheader">
+            The prompt for all camera/films is <span class="camera"> Ancient Roman painting, Fourth Style, Third Style,
+              second Style,
+              Pompeii. </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <a name="evaluation-2"></a>
+    <h2> Evaluation 2: Our method is capable of making a 3D art following the spatial abstract art style, that
+      looks like what humans can compose in natural language text.</h2>
+    <a href="#top">Back to top</a>
+    <p>
+      <i>This corresponds to the</i> <b class="bolditalic">Figure 2</b> <i>in the paper: </i>
+      Several examples of the evolved 3D art produced by our method, where the evolution process places triangles inside
+      the unit cube space visualized by black frame and sets triangles' colors and transparencies, forming a spatial
+      configuration.
+      In each example shown here, four cameras look at the space from four sides, although this is an arbitrary decision
+      and cameras can have different numbers and directions.
+      The film from each camera, capturing the rendered images, is compared with the prompt.
+      <u>
+        It could be observed that our method is capable of making a 3D art, which follows the spatial abstract art
+        style,
+        that looks like what humans can compose in natural language text.
+      </u>
+    </p>
+    <table class="table-figure">
+      <tbody>
+        <tr>
+          <td class="rowheader"> Result Result 3D Model (Hover to Enlarge) </td>
+          <td colspan="4">
+            <video class="the360view" playsinline autoplay muted loop>
+              <source src="./media/fig2 (a)/viz.mp4" type="video/webm">
+            </video>
+          </td>
+        </tr>
+        <tr>
+          <td class="rowheader"> Rendered Film </td>
+          <td> <img class="subfigure" src="./media/fig2 (a)/films/000000.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig2 (a)/films/000001.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig2 (a)/films/000002.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig2 (a)/films/000003.png"> </td>
+        </tr>
+        <tr>
+          <td class="rowheader"> Prompts </td>
+          <td class="camera camera1">Prompt/Film 1</td>
+          <td class="camera camera2">Prompt/Film 2</td>
+          <td class="camera camera3">Prompt/Film 3</td>
+          <td class="camera camera4">Prompt/Film 4</td>
+        </tr>
+        <tr>
+          <td colspan="5" class="subfigureheader">
+            The prompt for all camera/films is <span class="camera">Walt Disney World</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="table-figure">
+      <tbody>
+        <tr>
+          <td class="rowheader"> Result 3D Model (Hover to Enlarge) </td>
+          <td colspan="4">
+            <video class="the360view" playsinline autoplay muted loop>
+              <source src="./media/fig2 (b)/viz.mp4" type="video/webm">
+            </video>
+          </td>
+        </tr>
+        <tr>
+          <td class="rowheader"> Rendered Film </td>
+          <td> <img class="subfigure" src="./media/fig2 (b)/films/000000.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig2 (b)/films/000001.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig2 (b)/films/000002.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig2 (b)/films/000003.png"> </td>
+        </tr>
+        <tr>
+          <td class="rowheader"> Prompts </td>
+          <td class="camera camera1">Prompt/Film 1</td>
+          <td class="camera camera2">Prompt/Film 2</td>
+          <td class="camera camera3">Prompt/Film 3</td>
+          <td class="camera camera4">Prompt/Film 4</td>
+        </tr>
+        <tr>
+          <td colspan="5" class="subfigureheader">
+            The prompt for all camera/films is <span class="camera">A painting of Human</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+
+    <table class="table-figure">
+      <tbody>
+        <tr>
+          <td class="rowheader"> Result 3D Model (Hover to Enlarge) </td>
+          <td colspan="4">
+            <video class="the360view" playsinline autoplay muted loop>
+              <source src="./media/fig2 (c)/viz.mp4" type="video/webm">
+            </video>
+          </td>
+        </tr>
+        <tr>
+          <td class="rowheader"> Rendered Film </td>
+          <td> <img class="subfigure" src="./media/fig2 (c)/films/000000.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig2 (c)/films/000001.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig2 (c)/films/000002.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig2 (c)/films/000003.png"> </td>
+        </tr>
+        <tr>
+          <td class="rowheader"> Prompts </td>
+          <td class="camera camera1">Prompt/Film 1</td>
+          <td class="camera camera2">Prompt/Film 2</td>
+          <td class="camera camera3">Prompt/Film 3</td>
+          <td class="camera camera4">Prompt/Film 4</td>
+        </tr>
+        <tr>
+          <td colspan="5" class="subfigureheader">
+            The prompt for all camera/films is <span class="camera">A bright, vibrant, dynamic, spirited, vivid painting
+              of a dog.</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="table-figure">
+      <tbody>
+        <tr>
+          <td class="rowheader"> Result 3D Model (Hover to Enlarge) </td>
+          <td colspan="4">
+            <video class="the360view" playsinline autoplay muted loop>
+              <source src="./media/fig2 (d)/viz.mp4" type="video/webm">
+            </video>
+          </td>
+        </tr>
+        <tr>
+          <td class="rowheader"> Rendered Film </td>
+          <td> <img class="subfigure" src="./media/fig2 (d)/films/000000.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig2 (d)/films/000001.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig2 (d)/films/000002.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig2 (d)/films/000003.png"> </td>
+        </tr>
+        <tr>
+          <td class="rowheader"> Prompts </td>
+          <td class="camera camera1">Prompt/Film 1</td>
+          <td class="camera camera2">Prompt/Film 2</td>
+          <td class="camera camera3">Prompt/Film 3</td>
+          <td class="camera camera4">Prompt/Film 4</td>
+        </tr>
+        <tr>
+          <td colspan="5" class="subfigureheader">
+            The prompt for all camera/films is <span class="camera">A vivid, colorful bird'</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <a name="evaluation-4"></a>
+    <h2> Evaluation 4: Our method leverages the budgets of triangles in the increasing order of granularity, by first
+      using triangles for general shape and then moving towards fine-grained details.</h2>
+    <a href="#top">Back to top</a>
+    <p>
+      <i>This corresponds to the</i> <b class="bolditalic">Figure 4</b> <i>in the paper: </i>
+      Our method generating with text prompts "Walt Disney World" with four cameras,
+      with different numbers of triangles, namely 10, 25, 50 and 100 respectively.
+      <u>It could be shown that our method leverages the budgets of triangles in the increasing order of granularity, by
+        first using triangles for general shape and then moving towards fine-grained details.</u>
+    </p>
+    <table class="table-figure">
+      <tbody>
+        <tr>
+          <td class="rowheader"> Result 3D Model (Hover to Enlarge) </td>
+          <td colspan="4">
+            <video class="the360view" playsinline autoplay muted loop>
+              <source src="./media/fig4 (a)/viz.mp4" type="video/webm">
+            </video>
+          </td>
+        </tr>
+        <tr>
+          <td class="rowheader"> Rendered Film </td>
+          <td> <img class="subfigure" src="./media/fig4 (a)/films/000000.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig4 (a)/films/000001.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig4 (a)/films/000002.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig4 (a)/films/000003.png"> </td>
+        </tr>
+        <tr>
+          <td class="rowheader"> Prompts </td>
+          <td class="camera camera1">Prompt/Film 1</td>
+          <td class="camera camera2">Prompt/Film 2</td>
+          <td class="camera camera3">Prompt/Film 3</td>
+          <td class="camera camera4">Prompt/Film 4</td>
+        </tr>
+        <tr>
+          <td colspan="5" class="subfigureheader">
+            <span class="camera">Walt Disney World</span> -- <b>10</b> Triangles.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="table-figure">
+      <tbody>
+        <tr>
+          <td class="rowheader"> Result 3D Model (Hover to Enlarge) </td>
+          <td colspan="4">
+            <video class="the360view" playsinline autoplay muted loop>
+              <source src="./media/fig4 (b)/viz.mp4" type="video/webm">
+            </video>
+          </td>
+        </tr>
+        <tr>
+          <td class="rowheader"> Rendered Film </td>
+          <td> <img class="subfigure" src="./media/fig4 (b)/films/000000.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig4 (b)/films/000001.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig4 (b)/films/000002.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig4 (b)/films/000003.png"> </td>
+        </tr>
+        <tr>
+          <td class="rowheader"> Prompts </td>
+          <td class="camera camera1">Prompt/Film 1</td>
+          <td class="camera camera2">Prompt/Film 2</td>
+          <td class="camera camera3">Prompt/Film 3</td>
+          <td class="camera camera4">Prompt/Film 4</td>
+        </tr>
+        <tr>
+          <td colspan="5" class="subfigureheader">
+            <span class="camera">Walt Disney World</span> -- <b>25</b> Triangles.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+
+    <table class="table-figure">
+      <tbody>
+        <tr>
+          <td class="rowheader"> Result 3D Model (Hover to Enlarge) </td>
+          <td colspan="4">
+            <video class="the360view" playsinline autoplay muted loop>
+              <source src="./media/fig4 (c)/viz.mp4" type="video/webm">
+            </video>
+          </td>
+        </tr>
+        <tr>
+          <td class="rowheader"> Rendered Film </td>
+          <td> <img class="subfigure" src="./media/fig4 (c)/films/000000.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig4 (c)/films/000001.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig4 (c)/films/000002.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig4 (c)/films/000003.png"> </td>
+        </tr>
+        <tr>
+          <td class="rowheader"> Prompts </td>
+          <td class="camera camera1">Prompt/Film 1</td>
+          <td class="camera camera2">Prompt/Film 2</td>
+          <td class="camera camera3">Prompt/Film 3</td>
+          <td class="camera camera4">Prompt/Film 4</td>
+        </tr>
+        <tr>
+          <td colspan="5" class="subfigureheader">
+            <span class="camera">Walt Disney World</span> -- <b>50</b> Triangles.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="table-figure">
+      <tbody>
+        <tr>
+          <td class="rowheader"> Result 3D Model (Hover to Enlarge) </td>
+          <td colspan="4">
+            <video class="the360view" playsinline autoplay muted loop>
+              <source src="./media/fig4 (d)/viz.mp4" type="video/webm">
+            </video>
+          </td>
+        </tr>
+        <tr>
+          <td class="rowheader"> Rendered Film </td>
+          <td> <img class="subfigure" src="./media/fig4 (d)/films/000000.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig4 (d)/films/000001.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig4 (d)/films/000002.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig4 (d)/films/000003.png"> </td>
+        </tr>
+        <tr>
+          <td class="rowheader"> Prompts </td>
+          <td class="camera camera1">Prompt/Film 1</td>
+          <td class="camera camera2">Prompt/Film 2</td>
+          <td class="camera camera3">Prompt/Film 3</td>
+          <td class="camera camera4">Prompt/Film 4</td>
+        </tr>
+        <tr>
+          <td colspan="5" class="subfigureheader">
+            <span class="camera">Walt Disney World</span> -- <b>100</b> Triangles.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+
+
+    <a name="evaluation-5"></a>
+    <h2> Evaluation 5: In our method, different runs lead to equally plausible yet largely different 3D art.</h2>
+    <a href="#top">Back to top</a>
+    <p>
+      <i>This corresponds to and extends the</i> <b class="bolditalic">Figure 5</b> <i>in the paper:
+      </i>Our method generating two configurations, each with two independent runs.
+      The first configuration is with text prompts "A bright, vibrant, dynamic, spirited, vivid painting of a dog" from
+      four cameras,
+      while the second configuration "Walt Disney World" .
+      <u>Different runs lead to equally plausible yet largely different 3D art.
+        An artist user could thus be "in-the-loop" by choosing from different variants from these runs.</u>
+    </p>
+    <table class="table-figure">
+      <tbody>
+        <tr>
+          <td class="rowheader"> Result 3D Model (Hover to Enlarge) </td>
+          <td colspan="4">
+            <video class="the360view" playsinline autoplay muted loop>
+              <source src="./media/fig5 (a)/viz.mp4" type="video/webm">
+            </video>
+          </td>
+        </tr>
+        <tr>
+          <td class="rowheader"> Rendered Film </td>
+          <td> <img class="subfigure" src="./media/fig5 (a)/films/000000.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig5 (a)/films/000001.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig5 (a)/films/000002.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig5 (a)/films/000003.png"> </td>
+        </tr>
+        <tr>
+          <td class="rowheader"> Prompts </td>
+          <td class="camera camera1">Prompt/Film 1</td>
+          <td class="camera camera2">Prompt/Film 2</td>
+          <td class="camera camera3">Prompt/Film 3</td>
+          <td class="camera camera4">Prompt/Film 4</td>
+        </tr>
+        <tr>
+          <td colspan="5" class="subfigureheader">
+            <span class="camera">A bright, vibrant, dynamic, spirited, vivid painting of a dog/span> -- <b> First
+                Run</b>.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="table-figure">
+      <tbody>
+        <tr>
+          <td class="rowheader"> Result 3D Model (Hover to Enlarge) </td>
+          <td colspan="4">
+            <video class="the360view" playsinline autoplay muted loop>
+              <source src="./media/fig5 (b)/viz.mp4" type="video/webm">
+            </video>
+          </td>
+        </tr>
+        <tr>
+          <td class="rowheader"> Rendered Film </td>
+          <td> <img class="subfigure" src="./media/fig5 (b)/films/000000.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig5 (b)/films/000001.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig5 (b)/films/000002.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig5 (b)/films/000003.png"> </td>
+        </tr>
+        <tr>
+          <td class="rowheader"> Prompts </td>
+          <td class="camera camera1">Prompt/Film 1</td>
+          <td class="camera camera2">Prompt/Film 2</td>
+          <td class="camera camera3">Prompt/Film 3</td>
+          <td class="camera camera4">Prompt/Film 4</td>
+        </tr>
+        <tr>
+          <td colspan="5" class="subfigureheader">
+            <span class="camera">A bright, vibrant, dynamic, spirited, vivid painting of a dog</span> -- <b> Second
+              Run</b>.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="table-figure">
+      <tbody>
+        <tr>
+          <td class="rowheader"> Result 3D Model (Hover to Enlarge) </td>
+          <td colspan="4">
+            <video class="the360view" playsinline autoplay muted loop>
+              <source src="./media/fig5 (c)/viz.mp4" type="video/webm">
+            </video>
+          </td>
+        </tr>
+        <tr>
+          <td class="rowheader"> Rendered Film </td>
+          <td> <img class="subfigure" src="./media/fig5 (c)/films/000000.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig5 (c)/films/000001.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig5 (c)/films/000002.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig5 (c)/films/000003.png"> </td>
+        </tr>
+        <tr>
+          <td class="rowheader"> Prompts </td>
+          <td class="camera camera1">Prompt/Film 1</td>
+          <td class="camera camera2">Prompt/Film 2</td>
+          <td class="camera camera3">Prompt/Film 3</td>
+          <td class="camera camera4">Prompt/Film 4</td>
+        </tr>
+        <tr>
+          <td colspan="5" class="subfigureheader">
+            <span class="camera">Walt Disney World</span> -- <b> First
+              Run</b>.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="table-figure">
+      <tbody>
+        <tr>
+          <td class="rowheader"> Result 3D Model (Hover to Enlarge) </td>
+          <td colspan="4">
+            <video class="the360view" playsinline autoplay muted loop>
+              <source src="./media/fig5 (d)/viz.mp4" type="video/webm">
+            </video>
+          </td>
+        </tr>
+        <tr>
+          <td class="rowheader"> Rendered Film </td>
+          <td> <img class="subfigure" src="./media/fig5 (d)/films/000000.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig5 (d)/films/000001.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig5 (d)/films/000002.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig5 (d)/films/000003.png"> </td>
+        </tr>
+        <tr>
+          <td class="rowheader"> Prompts </td>
+          <td class="camera camera1">Prompt/Film 1</td>
+          <td class="camera camera2">Prompt/Film 2</td>
+          <td class="camera camera3">Prompt/Film 3</td>
+          <td class="camera camera4">Prompt/Film 4</td>
+        </tr>
+        <tr>
+          <td colspan="5" class="subfigureheader">
+            <span class="camera">Walt Disney World</span> -- <b> Second
+              Run</b>.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <a name="evaluation-6"></a>
+    <h2> Evaluation 6: In our method, the fixed transparency setting allows more global control of the scene, and the
+      learnable one provides great
+      flexibility in how triangles are related to the space.</h2>
+    <a href="#top">Back to top</a>
+    <p>
+      <i>This corresponds to the</i> <b class="bolditalic">Figure 6</b> <i>in the paper:</i>
+      Our method generating with text prompts "Walt Disney World", with four settings of transparency.
+      We show here three fixed transparency of 0&#37; 50&#37; and 80&#37; compared with the default setting of learnable
+      transparency.
+      <u>While the fixed transparency setting allows more global control of the scene, the learnable one provides great
+        flexibility in how triangles are related to the space.</u>
+    </p>
+    <table class="table-figure">
+      <tbody>
+        <tr>
+          <td class="rowheader"> Result 3D Model (Hover to Enlarge) </td>
+          <td colspan="4">
+            <video class="the360view" playsinline autoplay muted loop>
+              <source src="./media/fig6 (0)/viz.mp4" type="video/webm">
+            </video>
+          </td>
+        </tr>
+        <tr>
+          <td class="rowheader"> Rendered Film </td>
+          <td> <img class="subfigure" src="./media/fig6 (0)/films/000000.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig6 (0)/films/000001.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig6 (0)/films/000002.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig6 (0)/films/000003.png"> </td>
+        </tr>
+        <tr>
+          <td class="rowheader"> Prompts </td>
+          <td class="camera camera1">Prompt/Film 1</td>
+          <td class="camera camera2">Prompt/Film 2</td>
+          <td class="camera camera3">Prompt/Film 3</td>
+          <td class="camera camera4">Prompt/Film 4</td>
+        </tr>
+        <tr>
+          <td colspan="5" class="subfigureheader">
+            Fixed transparency of 0&#37;.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="table-figure">
+      <tbody>
+        <tr>
+          <td class="rowheader"> Result 3D Model (Hover to Enlarge) </td>
+          <td colspan="4">
+            <video class="the360view" playsinline autoplay muted loop>
+              <source src="./media/fig6 (a)/viz.mp4" type="video/webm">
+            </video>
+          </td>
+        </tr>
+        <tr>
+          <td class="rowheader"> Rendered Film </td>
+          <td> <img class="subfigure" src="./media/fig6 (a)/films/000000.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig6 (a)/films/000001.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig6 (a)/films/000002.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig6 (a)/films/000003.png"> </td>
+        </tr>
+        <tr>
+          <td class="rowheader"> Prompts </td>
+          <td class="camera camera1">Prompt/Film 1</td>
+          <td class="camera camera2">Prompt/Film 2</td>
+          <td class="camera camera3">Prompt/Film 3</td>
+          <td class="camera camera4">Prompt/Film 4</td>
+        </tr>
+        <tr>
+          <td colspan="5" class="subfigureheader">
+            Fixed transparency of 50&#37;.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="table-figure">
+      <tbody>
+        <tr>
+          <td class="rowheader"> Result 3D Model (Hover to Enlarge) </td>
+          <td colspan="4">
+            <video class="the360view" playsinline autoplay muted loop>
+              <source src="./media/fig6 (2)/viz.mp4" type="video/webm">
+            </video>
+          </td>
+        </tr>
+        <tr>
+          <td class="rowheader"> Rendered Film </td>
+          <td> <img class="subfigure" src="./media/fig6 (2)/films/000000.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig6 (2)/films/000001.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig6 (2)/films/000002.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig6 (2)/films/000003.png"> </td>
+        </tr>
+        <tr>
+          <td class="rowheader"> Prompts </td>
+          <td class="camera camera1">Prompt/Film 1</td>
+          <td class="camera camera2">Prompt/Film 2</td>
+          <td class="camera camera3">Prompt/Film 3</td>
+          <td class="camera camera4">Prompt/Film 4</td>
+        </tr>
+        <tr>
+          <td colspan="5" class="subfigureheader">
+            Fixed transparency of 80&#37;.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="table-figure">
+      <tbody>
+        <tr>
+          <td class="rowheader"> Result 3D Model (Hover to Enlarge) </td>
+          <td colspan="4">
+            <video class="the360view" playsinline autoplay muted loop>
+              <source src="./media/fig6 (b)/viz.mp4" type="video/webm">
+            </video>
+          </td>
+        </tr>
+        <tr>
+          <td class="rowheader"> Rendered Film </td>
+          <td> <img class="subfigure" src="./media/fig6 (b)/films/000000.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig6 (b)/films/000001.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig6 (b)/films/000002.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig6 (b)/films/000003.png"> </td>
+        </tr>
+        <tr>
+          <td class="rowheader"> Prompts </td>
+          <td class="camera camera1">Prompt/Film 1</td>
+          <td class="camera camera2">Prompt/Film 2</td>
+          <td class="camera camera3">Prompt/Film 3</td>
+          <td class="camera camera4">Prompt/Film 4</td>
+        </tr>
+        <tr>
+          <td colspan="5" class="subfigureheader">
+            <b>Learnable</b> transparency.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+
+    <a name="evaluation-7"></a>
+    <h2> Evaluation 7: Our method produces one 3D art, and successfully allows it to look differently from different
+      angles. </h2>
+    <a href="#top">Back to top</a>
+    <p>
+      <i>This corresponds to the</i> <b class="bolditalic">Figure 7</b> <i>in the paper:</i>
+      Our method generating with different text prompts at cameras.
+      The text prompt for camera 1 and 3 is "Walt Disney World" and for camera 2 and 4 is "an annoyed cat".
+      <u>Our method produces one 3D art, and successfully allows it to look differently from different angles.</u>
+    </p>
+    <table class="table-figure">
+      <tbody>
+        <tr>
+          <td class="rowheader"> Result 3D Model (Hover to Enlarge) </td>
+          <td colspan="4">
+            <video class="the360view" playsinline autoplay muted loop>
+              <source src="./media/fig7/viz.mp4" type="video/webm">
+            </video>
+          </td>
+        </tr>
+        <tr>
+          <td class="rowheader"> Rendered Film </td>
+          <td> <img class="subfigure" src="./media/fig7/films/000000.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig7/films/000001.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig7/films/000002.png"> </td>
+          <td> <img class=" subfigure" src="./media/fig7/films/000003.png"> </td>
+        </tr>
+        <tr>
+          <td class="rowheader"> Prompts </td>
+          <td class="camera camera1">Prompt/Film 1</td>
+          <td class="camera camera2">Prompt/Film 2</td>
+          <td class="camera camera3">Prompt/Film 3</td>
+          <td class="camera camera4">Prompt/Film 4</td>
+        </tr>
+        <tr>
+          <td colspan="5" class="subfigureheader">
+            <span class="camera camera1">Prompt 1</span> and <span class="camera camera3">Prompt 3</span>: <span
+              class="camera">Walt Disney World</span>
+            <br>
+            <span class="camera camera2">Prompt 2</span> and <span class="camera camera4">Prompt 4</span>: <span
+              class="camera">an annoyed cat</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+
+  </div>
+</body>
+
+</html>
